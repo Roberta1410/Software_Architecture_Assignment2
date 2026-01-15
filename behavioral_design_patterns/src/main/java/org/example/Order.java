@@ -26,7 +26,7 @@ public class Order {
 
     private double totalAmount;
 
-    @Transient // Don't persist the service
+    @Transient
     private transient NotificationService notificationService;
 
     public void updateStatus(String newStatus) {
