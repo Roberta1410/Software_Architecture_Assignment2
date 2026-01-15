@@ -18,20 +18,13 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    /**
-     * Place a new order.
-     *
-     * Example POST request body:
-     * {
-     *   "customerName": "John Doe",
-     *   "totalAmount": 99.99
-     * }
-     */
+    /**POST request body:
+    {
+     "customerName": "John Doe",
+     "totalAmount": 99.99
+    }*/
     @PostMapping("/place")
     public ResponseEntity<String> placeOrder(@RequestBody Order order) {
         log.info("Received request to place order for customer {}", order.getCustomerName());
 
-        // For simplicity, using CreditCardPayment as the payment strategy
         PaymentStrategy paymentStrategy = new CreditCardPayment();
-
-        // Call service layer t
