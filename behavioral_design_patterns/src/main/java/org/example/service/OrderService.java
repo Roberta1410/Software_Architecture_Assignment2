@@ -20,21 +20,15 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final NotificationService notificationService;
 
-    /**
-     * Place a new order using the provided payment strategy.
-     */
     public void placeOrder(Order order, PaymentStrategy paymentStrategy) {
         log.info("Starting order process for customer: {}", order.getCustomerName());
 
-        // Attach NotificationService to the order
         order.setNotificationService(notificationService);
 
-        // Set up validation chain
         OrderValidationHandler inventoryHandler = new InventoryCheckHandler();
         OrderValidationHandler paymentHandler = new PaymentValidationHandler();
         inventoryHandler.setNext(paymentHandler); // inventory -> payment
 
-        // Create the PlaceOrderCommand
         PlaceOrderCommand placeOrderCommand = new PlaceOrderCommand(
                 order,
                 inventoryHandler,
@@ -42,7 +36,6 @@ public class OrderService {
                 orderRepository
         );
 
-        // Execute the command
         placeOrderCommand.execute();
 
         log.info("Order process completed for order {}", order.getId());
